@@ -54,6 +54,28 @@ For this project we selected Airbnb datasets from Kaggle.  The datasets contain 
 airbnb_df = pd.merge(listings_df, reviews_df, how='left', left_on=['id'], right_on=['listing_id'])
 airbnb_df.head(10)
 ```
+
+### Database - Getting the actual data:
+
+* Two datasets were used: listings2017.csv and reviews2017 (in the Resources folder).
+* They are linked by the id and listing.id of the respective sets.
+
+
+Steps used in Transforming and Loading the data were:
+
+* On examing the dataset, the team decided on which columns to keep. This was processed by opening the csv file in excel and removing the unwanted columns.
+* As shown in the AirBnB_data_transform_and_clean_script.txt file, a database and tables were created in PostgreSQL. Due to the listings dataset containing special characters in columns that we needed as numeric, the columns were created as varchar.
+* The datasets were then imported into the respective tables.
+* The AirBnB_data_transform_and_clean_script.txt file also contained all the sql for breaking out the amenities column into individual amenities, removing unwanted characters, changing column type, dropping columns no longer needed and joining the listings and review tables to get reviews. Since there were multiple reviews for about we decided to take just one review per listing (using 'distinct on'). Further, listings that did not have a review were kept.
+* The cleansed data was then exported in csv format (listings_with_reviews).
+* We created a MongoDB account, create a cluster and added all team members, so they can access the data.
+* Using MongoDB Compass to connect to the cluster, a database and collection were created and the data imported as airbnb_cleaned
+* As team members used the data, they realized that three other columns from the original listings dataset would enhance the visualization, so we repeated the steps above and included the columns. This did not take very long to do as most of the processing was in the AirBnB_data_transform_and_clean_script.txt file.
+* Using MongoDB Compass to connect to the cluster, a new database and new collection were created and the data imported as airbnb_cleansed.
+
+All related ETL and Database scripts and files are in the ETL_and_Database folder.
+
+
 ## Machine Learning Model:
 
   ![data-16-5-5-1-NLP-Pipeline](https://user-images.githubusercontent.com/45697471/125150334-fe76fc80-e10c-11eb-8974-252280baab95.png)
@@ -83,11 +105,11 @@ Our objective in this project is to predict Airbnb rental values using the featu
 Once the datasets are cleaned and any outliers are removed, we can use scikit-learn machine library's `f_regression()` function to provide correlation scores for the features listed above. Once we have these scores, we can select features that will increase our model's accuracy and drop any features that do not have a high correlation. This will help optimize our model for predictions.
 
 # Dashboard:
-To get the insight view of the Boston dataset, we used Tableau Visualization method to demonstrate the findings and for the further analysis. We also used a Navigation bar that includes tabs to Dashboards, Machine Learning and Github Repository pages. Features input where users can select from twenty-two feature dropdowns to predict rent prices. Multiple Features can be displayed at once and selected areas of the graph can be enlarged with adapting axes, And we embed a number of Tableau dashboards in the Dashboards page
+To get the insight view of the Boston dataset, we used Tableau Visualization method to demonstrate the findings and for the further analysis. We also created a Website where  you can use a Navigation bar that includes tabs to Dashboards, Machine Learning and Github Repository pages. Features input where users can select from various feature dropdowns to predict rent prices, And we embed a number of Tableau dashboards in the Dashboards page
 
 ### Link for the Tableau Visulaization: [Airbnb Price Analysis](https://public.tableau.com/app/profile/geetha.shanthibushan/viz/AirbnbPriceAnalysisPrediction/AirbnbPriceAnalysis_1)
-### The website page deployed on github https://raissafondjo.github.io/Group_6_Final_Project/templates/index.html 
-### And the link to our Google Presentation https://1drv.ms/p/s!Aq1EheQjtSdDjGo4CsYz7WvhfgXD?e=A0mBpL
+### The Website deployed on github (work in progress) https://raissafondjo.github.io/Group_6_Final_Project/templates/index.html  
+### And the link to our PowerPoint Presentation https://1drv.ms/p/s!Aq1EheQjtSdDjG16JEuz46iYVs-d?e=JgdjIm
 
 ## Following Tools were used:
   * Tableau Desktop App - exported data out of MongoDB into JSON files (airbnb_cleansed)
